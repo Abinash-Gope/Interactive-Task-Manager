@@ -282,24 +282,20 @@ const toggleSystemBtn = document.querySelector("#toggle-system-btn"); // Your ex
 const systemModal = document.querySelector("#system-modal");
 const closeSystemModal = document.querySelector("#close-system-modal");
 
-// Click existing button to open the popup
 toggleSystemBtn.addEventListener("click", () => {
     systemModal.style.display = "flex";
 });
 
-// Close when hitting the 'X' icon
 closeSystemModal.addEventListener("click", () => {
     systemModal.style.display = "none";
 });
 
-// Close when clicking outside on the background overlay grid
 window.addEventListener("click", (e) => {
     if (e.target === systemModal) {
         systemModal.style.display = "none";
     }
 });
 
-// --- SANDBOX PROPAGATION LOGGER ATTACHMENTS ---
 const gp = document.querySelector("#grandparent");
 const pr = document.querySelector("#parent");
 const ch = document.querySelector("#child-btn");

@@ -1,0 +1,542 @@
+/* ==========================================
+   1. VARIABLES & THEMES (Dark Mode Default)
+   ========================================== */
+:root[data-theme="dark"] {
+    --bg-main: #191919;        /* Deep background */
+    --bg-sidebar: #202020;     /* Slightly lighter panel background */
+    --bg-card: #2d2d2d;        /* Folder card base background */
+    --text-primary: #ffffff;
+    --text-secondary: #aaaaaa;
+    --accent-color: #ffaa00;    /* Folder Yellow/Orange accent */
+    --border-color: #333333;
+}
+
+/* Light Mode Swaps */
+:root[data-theme="light"] {
+    --bg-main: #f3f3f3;
+    --bg-sidebar: #eaeaea;
+    --bg-card: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #555555;
+    --accent-color: #0067b8;    /* Windows Blue accent */
+    --border-color: #cccccc;
+}
+
+/* ===================================================
+   CUSTOM SYSTEM SCROLLBAR ENGINE
+====================================================== */
+
+/* 1. Define the overall width of the scrollbar vertical strip */
+::-webkit-scrollbar {
+    width: 10px; /* Slimmer and cleaner than the default browser thickness */
+    height: 10px; /* Height for horizontal scrollbars if they appear */
+}
+
+/* 2. Style the background track (the runway) */
+::-webkit-scrollbar-track {
+    background-color: var(--bg-main); /* Blends perfectly into your main canvas background */
+}
+
+/* 3. Style the draggable thumb handle (the slider bar) */
+::-webkit-scrollbar-thumb {
+    background-color: var(--border-color); /* Uses your active border color as a subtle contrast */
+    border-radius: 20px; /* Rounds the edges fully for a modern pill look */
+    border: 2px solid var(--bg-main); /* Creates an invisible padding padding space around the thumb */
+}
+
+/* 4. Highlight effect when hovering directly over the scrollbar thumb */
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-color); /* Turns amber/blue dynamically when you hover! */
+}
+
+/* Reset basics */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* ==========================================
+   2. APP LAYOUT STRUCTURE (Flexbox Split)
+   ========================================== */
+.app-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.sidebar-section {
+    margin: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+.sidebar-section h3 {
+    margin: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 300px;
+}
+
+li {
+    background-color: var(--bg-main);
+    margin-bottom: 8px;
+    padding: 12px 16px; 
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+li:hover {
+    background-color: var(--accent-color);
+    color: white;
+    transform: translateX(5px); /* Subtle shift to the right */
+}
+
+
+#theme-toggle-btn {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    padding: 3px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 10px;
+    transition: border 0.2s;
+    cursor: pointer;
+}
+
+#theme-toggle-btn:hover {
+    color: var(--text-secondary);
+    border: 1px solid var(--accent-color);
+}
+
+#theme-toggle-btn:active {
+    background-color: var(--bg-card);
+}
+
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Top Address/Action Bar */
+.top-bar {
+    background-color: var(--bg-sidebar);
+    padding: 15px 25px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.btn-add {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 10px;
+    transition: border 0.2s;
+    cursor: pointer;
+}
+
+.btn-add:hover {
+    color: var(--text-secondary);
+    border: 1px solid var(--accent-color);
+}
+
+.btn-add:active {
+    background-color: var(--bg-card);
+}
+
+.form {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.73);
+    position: absolute;
+    z-index: 1;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.close {
+    position: relative;
+    left: 47%;
+    background-color: var(--bg-main);
+    padding: 2px 6px;
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    margin-top: 2px;
+}
+
+.close:hover {
+    background-color: var(--bg-sidebar);
+}
+
+.close-x {
+    color: var(--text-primary);
+    padding: 0%;
+    margin: 0%;
+    position: relative;
+    cursor: pointer;
+}
+
+.close-x:active {
+    color: red;
+}
+
+.task-creation-form {
+    height: 60%;
+    width: 50%;
+    background-color: var(--bg-card);
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    box-shadow: 0 0 12px var(--bg-main);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.task-creation-form input,
+.task-creation-form select {
+    height: 15%;
+    width: 70%;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+#task-category:focus {
+    outline: none;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 8px var(--accent-color);
+}
+
+    
+.task-creation-form button {
+    height: 10%;
+    width: 70%;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    padding: 3px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 10px;
+    transition: border 0.2s;
+}
+
+.task-creation-form button:hover {
+    background-color: var(--bg-sidebar);
+    border-color: var(--accent-color);
+}
+
+
+/* ==========================================
+   3. THE TASK GRID (CSS Grid Folder View)
+   ========================================== */
+.workspace-grid {
+    display: grid;
+    /* This rule automatically packs folder icons into responsive columns */
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 20px;
+    padding: 25px;
+    flex: 1;
+}
+
+/* ==========================================
+   4. COMPONENT: TASK CARD (Folder lookalike)
+   ========================================== */
+.task-folder-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.task-folder-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-color: var(--accent-color);
+}
+
+/* Mimics a Folder Graphic icon at the top of the card */
+.task-folder-card::before {
+    content: "📁";
+    font-size: 40px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.task-title-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    word-break: break-word;
+    margin-bottom: 15px;
+}
+
+.action-select {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-primary);
+    word-break: break-word;
+    margin-bottom: 15px;
+}
+
+/* Action button wrappers at the bottom of the card */
+.folder-actions {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    justify-content: center;
+}
+
+.folder-actions button {
+    padding: 4px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-main);
+    color: var(--text-primary);
+    transition: border 0.3s;
+}
+
+.folder-actions button:hover {
+   border-color: var(--accent-color);
+}
+
+.folder-actions button:active {
+    background-color: var(--bg-sidebar);
+}
+
+/* Highlight variations based on attributes (Requirement 2) */
+.task-folder-card[data-status="completed"] {
+    opacity: 0.6;
+}
+.task-folder-card[data-status="completed"]::before {
+    content: "✅"; /* Swaps folder to checkmark when status changes */
+}
+
+/* Gray out and disable just the Edit and Delete buttons inside a completed card */
+.task-folder-card[data-status="completed"] .edit-btn,
+.task-folder-card[data-status="completed"] .delete-btn {
+    opacity: 0.4;
+    cursor: not-allowed; /* Changes mouse pointer to a red circle with a line */
+    background-color: #cccccc; /* Optional: grays out button background */
+}
+
+/* ==========================================
+   5. BONUS FEATURES STYLING
+   ========================================== */
+
+/* Align Form and Search Bar on opposite sides of the header */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Windows-style Search Bar styling */
+.search-container {
+    width: 240px;
+}
+
+.search-container input {
+    width: 100%;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--border-color);
+    box-shadow: 0 0 8px var(--accent-color);
+}
+
+
+/* Counter Badges next to navigation links */
+.counter-badge {
+    background-color: var(--border-color);
+    color: var(--text-secondary);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: auto; /* Pushes the badge to the far right of the list item */
+    font-weight: bold;
+}
+
+/* Sidebar footer grouping */
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Clear All Destructive Button Styling */
+.btn-clear-all {
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid #ff4444;
+    color: #ff4444;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.btn-clear-all:hover {
+    background-color: rgba(255, 68, 68, 0.1);
+}
+
+.btn-clear-all:active {
+    background-color: transparent;
+}
+
+/* ===================================================
+   EVENT PROPAGATION AND BROWSER PIPELINE SECTIONS
+====================================================== */
+/* Container for the control button */
+.system-toggle-container {
+    text-align: center;
+    margin: auto auto;
+    max-width: 1100px;
+}
+
+.system-btn {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 4px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.system-btn:hover {
+    border-color: var(--accent-color);
+    background-color: var(--bg-main);
+}
+
+.system-btn:active {
+    background-color: var(--bg-card);
+}
+
+
+
+/* DIAGNOSTIC POPUP DIMENSIONS */
+.modal-box.diagnostic-box { 
+    width: 850px; 
+    max-height: 85vh; 
+    overflow-y: auto; 
+}
+.diag-section { 
+    background-color: var(--bg-main); 
+    border: 1px solid var(--border-color); 
+    padding: 16px; 
+    border-radius: 8px; 
+    margin-bottom: 16px; 
+}
+.diag-section h4 { margin-bottom: 10px; color: var(--accent-color); }
+
+/* 🚨 FIX: THIS FORCES THE OVERLAY TO POP UP ON TOP OF EVERYTHING */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75); /* Darkens the background */
+    display: none; /* Kept hidden until JS switches it to 'flex' */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Puts it on top of every other element */
+}
+
+/* Base style for the box inside the popup */
+.modal-box {
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+
+/* EVENT PROPAGATION BOXES STYLING */
+#grandparent { padding: 20px; background-color: rgba(255,170,0,0.05); border: 2px dashed var(--accent-color); border-radius: 8px; margin-top: 10px; }
+#parent { padding: 20px; background-color: rgba(0,103,184,0.05); border: 2px dashed #0067b8; border-radius: 6px; margin-top: 10px; }
+#grandparent span, #parent span { font-size: 0.75rem; font-weight: bold; opacity: 0.6; display: block; margin-bottom: 5px; }
+#child-btn { background-color: var(--accent-color); color: #191919; border: none; }
+
+/* BROWSER RENDERING FLOW MAP */
+.pipeline-flow { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 15px; }
+.pipe-col { display: flex; flex-direction: column; align-items: center; flex: 1; }
+.pipe-card { background-color: var(--bg-card); border: 1px solid var(--border-color); padding: 12px; width: 100%; text-align: center; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
+.arrow { color: var(--accent-color); margin: 4px 0; font-weight: bold; }
+.opacity-spacer { opacity: 0; }
+.pipe-sign { font-size: 1.5rem; font-weight: bold; color: var(--text-secondary); }
+.card-html { border-left: 4px solid #ff4500; }
+.card-process { border-left: 4px solid #ffaa00; }
+.card-tree { border-left: 4px solid #0067b8; }
+.card-render { border-left: 4px solid #00cc66; }
+.card-paint { background-color: var(--accent-color); color: #191919; border: none; }

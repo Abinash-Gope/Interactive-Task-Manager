@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Explorer - Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Quick access</h3>
+                <ul>
+                    <li class="active" data-filter="all">📅 All Tasks <span id="total-count" class="counter-badge">0</span></li>
+                    <li data-filter="pending">⏳ Pending <span id="pending-count" class="counter-badge">0</span></li>
+                    <li data-filter="completed">✅ Completed <span id="completed-count" class="counter-badge">0</span></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <button id="clear-all-btn" class="btn-clear-all">🗑️ Clear All Tasks</button>
+                <button id="theme-toggle-btn">🌓 Toggle Theme</button>
+            </div>
+        </aside>
+
+        <div class="form">
+            <form id="task-form" class="task-creation-form">
+                <div class="close">
+                    <span id="cut" class="close-x">X</span>
+                </div>
+                <h3 id="heading">Add task</h3>
+
+                <input type="text" id="task-title" placeholder="New task title..." required autocomplete="off">
+                
+                <select id="task-category">
+                    <option value="Work">📁 Work</option>
+                    <option value="Personal">📁 Personal</option>
+                    <option value="Shopping">📁 Shopping</option>
+                </select>
+
+                <button type="submit" class="subBtn">Add</button>
+            </form>
+        </div>
+
+        <main class="main-content">
+            
+            <header class="top-bar">
+    
+                <div class="search-container">
+                    <input type="text" id="task-search" placeholder="🔍 Search tasks..." autocomplete="off">
+                </div>
+                <div class="system-toggle-container">
+                    <button id="toggle-system-btn" class="system-btn">📊 Show System Diagnostics</button>
+                </div>
+                <button type="submit" class="btn-add">+ Create Task</button>
+
+            </header>
+
+            <section class="workspace-grid" id="task-container">
+                
+            </section>
+
+            <div id="system-modal" class="modal-overlay">
+                <div class="modal-box diagnostic-box">
+                    <div class="modal-header">
+                        <h3>System Diagnostics Dashboard</h3>
+                        <span id="close-system-modal" class="close-icon">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="diag-section">
+                            <h4>7️⃣ Event Propagation Sandbox</h4>
+                            <p>Click the child button. Watch your browser DevTools console see Capture (down) vs Bubble (up).</p>
+                            <div id="grandparent">
+                                <span>Grandparent</span>
+                                <div id="parent">
+                                    <span>Parent</span>
+                                    <button id="child-btn">Target Child Button</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="diag-section">
+                            <h4>8️⃣ Browser Rendering Pipeline</h4>
+                            <div class="pipeline-flow">
+                                <div class="pipe-col">
+                                    <div class="pipe-card card-html">HTML Source</div>
+                                    <div class="arrow">↓</div>
+                                    <div class="pipe-card card-process">Parsing</div>
+                                    <div class="arrow">↓</div>
+                                    <div class="pipe-card card-process">Tokenization</div>
+                                    <div class="arrow">↓</div>
+                                    <div class="pipe-card card-tree">DOM Tree</div>
+                                </div>
+                                <div class="pipe-sign">+</div>
+                                <div class="pipe-col">
+                                    <div class="pipe-card card-css">CSS Stylesheet</div>
+                                    <div class="arrow opacity-spacer">↓</div>
+                                    <div class="arrow opacity-spacer">↓</div>
+                                    <div class="arrow">↓</div>
+                                    <div class="pipe-card card-tree">CSSOM Tree</div>
+                                </div>
+                                <div class="pipe-sign">=</div>
+                                <div class="pipe-col">
+                                    <div class="pipe-card card-render">Render Tree</div>
+                                    <div class="arrow">↓</div>
+                                    <div class="pipe-card card-paint">Viewport Paint</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
